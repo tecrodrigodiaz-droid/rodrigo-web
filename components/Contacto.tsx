@@ -1,14 +1,26 @@
 'use client'
-
 import { useState } from 'react'
 
 export default function Contacto() {
   const [enviado, setEnviado] = useState(false)
+  const [cargando, setCargando] = useState(false)
   const [form, setForm] = useState({ nombre: '', telefono: '', mensaje: '' })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setEnviado(true)
+    setCargando(true)
+    try {
+      await fetch('/api/contacto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      setEnviado(true)
+    } catch {
+      alert('Error al enviar. Inténtalo de nuevo.')
+    } finally {
+      setCargando(false)
+    }
   }
 
   return (
@@ -20,7 +32,7 @@ export default function Contacto() {
               Solicita tu visita
             </h2>
             <p className="text-gray-400 leading-relaxed mb-8">
-              Cuéntame qué necesitas y te respondo en el menor tiempo posible.
+              Cuéntanos qué necesitáis y os respondemos a la mayor brevedad.
               Sin compromiso — primero hablamos, luego presupuestamos.
             </p>
             <div className="space-y-4">
@@ -44,7 +56,7 @@ export default function Contacto() {
               <div className="text-center py-8">
                 <div className="text-4xl mb-4">✅</div>
                 <h3 className="text-white font-bold text-xl mb-2">Mensaje recibido</h3>
-                <p className="text-gray-400 text-sm">Te contactaré en breve. Gracias por confiar en mi trabajo.</p>
+                <p className="text-gray-400 text-sm">Os contactaremos a la mayor brevedad. Gracias por confiar en nuestro trabajo.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -71,21 +83,22 @@ export default function Contacto() {
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 text-sm mb-1.5">¿Qué necesitas?</label>
+                  <label className="block text-gray-400 text-sm mb-1.5">¿Qué necesitáis?</label>
                   <textarea
                     required
                     rows={4}
                     value={form.mensaje}
                     onChange={(e) => setForm({ ...form, mensaje: e.target.value })}
                     className="w-full bg-[#0b1929] border border-white/10 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-[#e85d00]/50 resize-none"
-                    placeholder="Describe brevemente el trabajo o avería..."
+                    placeholder="Describid brevemente el trabajo o avería..."
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-[#e85d00] hover:bg-[#cc5200] text-white py-3 rounded-lg font-semibold transition-colors"
+                  disabled={cargando}
+                  className="w-full bg-[#e85d00] hover:bg-[#cc5200] disabled:opacity-50 text-white py-3 rounded-lg font-semibold transition-colors"
                 >
-                  Enviar solicitud
+                  {cargando ? 'Enviando...' : 'Enviar solicitud'}
                 </button>
               </form>
             )}
