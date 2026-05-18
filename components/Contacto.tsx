@@ -1,4 +1,5 @@
 'use client'
+
 import { useState } from 'react'
 
 export default function Contacto() {
@@ -72,3 +73,25 @@ export default function Contacto() {
                 <div>
                   <label className="block text-gray-400 text-sm mb-1.5">¿Qué necesitas?</label>
                   <textarea
+                    required
+                    rows={4}
+                    value={form.mensaje}
+                    onChange={(e) => setForm({ ...form, mensaje: e.target.value })}
+                    className="w-full bg-[#0b1929] border border-white/10 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-[#e85d00]/50 resize-none"
+                    placeholder="Describe brevemente el trabajo o avería..."
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-[#e85d00] hover:bg-[#cc5200] text-white py-3 rounded-lg font-semibold transition-colors"
+                >
+                  Enviar solicitud
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
