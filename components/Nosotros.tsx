@@ -22,4 +22,23 @@ export default function Nosotros() {
             </p>
             <p className="text-gray-400 leading-relaxed mb-8">
               Mi diferencial no es la tecnología — es el criterio técnico acumulado en dos décadas
-              resolviendo probl
+              resolviendo problemas reales. Cada visita incluye diagnóstico honesto y solución duradera.
+            </p>
+            <a href="#contacto" className="inline-block bg-[#e85d00] hover:bg-[#cc5200] text-white px-7 py-3 rounded-lg font-semibold transition-colors">
+              Contactar ahora
+            </a>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {valores.map((v) => (
+              <div key={v.title} className="bg-[#0d2040] border border-white/5 rounded-xl p-5">
+                <div className="text-2xl mb-3">{v.icon}</div>
+                <h3 className="text-white font-semibold text-sm mb-2">{v.title}</h3>
+                <p className="text-gray-400 text-xs leading-relaxed">{v.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
