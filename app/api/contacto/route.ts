@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { nombre, telefono, mensaje } = body;
+    const { nombre, telefono, direccion, mensaje } = body;
 
     if (!nombre || !telefono) {
       return NextResponse.json({ error: 'Faltan datos' }, { status: 400 });
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
       from: 'onboarding@resend.dev',
       to: 'rodrigodiazelectricista@gmail.com',
       subject: 'Nueva solicitud de ' + nombre,
-      html: '<p><strong>Nombre:</strong> ' + nombre + '</p><p><strong>Telefono:</strong> ' + telefono + '</p><p><strong>Mensaje:</strong> ' + (mensaje || 'No indicado') + '</p>',
+      html: '<p><strong>Nombre:</strong> ' + nombre + '</p><p><strong>Telefono:</strong> ' + telefono + '</p><p><strong>Direccion:</strong> ' + (direccion || 'No indicada') + '</p><p><strong>Mensaje:</strong> ' + (mensaje || 'No indicado') + '</p>',
     });
 
     return NextResponse.json({ ok: true });
